@@ -16,7 +16,7 @@ admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
   databaseURL: "https://ticket2-b1147-default-rtdb.firebaseio.com/" // Update with your database URL
 });
-dbURI = process.env.mongodburi
+dbURI = 'mongodb+srv://manikandan05082003:Manicdon07%40@cluster0.scriurb.mongodb.net/Ticket2'
 // Connect to MongoDB
 mongoose.connect(dbURI, {
   useNewUrlParser: true,
