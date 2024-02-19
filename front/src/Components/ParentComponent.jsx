@@ -27,6 +27,7 @@ function MobileNav({ open, setOpen }) {
                 <a className="text-xl font-normal my-4 text-white" href="/events" onClick={() => setTimeout(() => { setOpen(!open) }, 100)}>
                     Events
                 </a>
+                <Connect setUserEmail={setUserEmail} />
             </div>
         </div>
     )

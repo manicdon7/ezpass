@@ -9,7 +9,7 @@ const Home = () => {
     return (
         <div className="h-screen play-font" style={bg}> 
             <main className="grid md:grid-cols-2">
-                <div className="text-white font-semibold mt-10 md:mt-36 mx-5 md:ml-10 poppins-font"> 
+                <div className="text-white font-semibold mt-10 md:mt-36 mx-6 md:ml-10 poppins-font"> 
                     <h1 className="text-2xl md:text-7xl"> EasyPass: <span className="bg-gradient-to-r from-red-800 via-yellow-600 to-yellow-500 text-transparent bg-clip-text">Festive Passes, Your Way </span></h1>
                     <p className="text-xl md:text-lg  mt-8 mx-2 md:mr-28">Experience seamless event hosting and ticket booking with EasyPass  Embrace the future of ticketing - Your hassle-free ticketing solution!</p>
                     <a href="/events">
