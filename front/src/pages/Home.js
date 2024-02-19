@@ -16,7 +16,7 @@ const Home = () => {
                     <button className="bg-white text-black mt-10 font-bold text-xl px-3 border-2 py-2 rounded-full hover:bg-black hover:border-2 hover:border-yellow-400 hover:text-yellow-400">Book Now</button>
                     </a>
                     <a href="/host">
-                    <button className="ml-16 text-xl border-2 px-3 py-2 rounded-full hover:text-yellow-400 hover:border-yellow-400 ">Host Now </button>
+                    <button className="md:ml-16 ml-10 text-xl border-2 px-3 py-2 rounded-full hover:text-yellow-400 hover:border-yellow-400 ">Host Now </button>
                     </a>
                 </div>
             </main> 
