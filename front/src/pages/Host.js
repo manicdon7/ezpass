@@ -88,7 +88,7 @@ const Host = ({ userEmail }) => {
       formData.append("email", userEmail);
   
       // Make the HTTP request with the headers and FormData
-      const response = await fetch("http://localhost:5000/api/host", {
+      const response = await fetch("https://ezpass-backend.vercel.app/api/host", {
         method: "POST",
         headers: headers,
         body: formData,

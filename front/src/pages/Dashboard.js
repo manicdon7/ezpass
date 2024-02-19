@@ -22,7 +22,7 @@ const Dashboard = () => {
           const userEmail = user.email;
           const idToken = await user.getIdToken();
           console.log(userEmail);
-          const response = await fetch("http://localhost:5000/api/dashboard", {
+          const response = await fetch("https://ezpass-backend.vercel.app/api/dashboard", {
             headers: {
               Authorization: `Bearer ${idToken}`,
             },

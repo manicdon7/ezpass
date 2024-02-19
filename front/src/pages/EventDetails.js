@@ -37,7 +37,7 @@ const EventDetails = () => {
 
         const fetchEventDetails = async () => {
             try {
-                const response = await fetch(`http://localhost:5000/api/events/${id}`);
+                const response = await fetch(`https://ezpass-backend.vercel.app/api/events/${id}`);
                 if (response.ok) {
                     const eventData = await response.json();
                     setEvent(eventData);
@@ -75,7 +75,7 @@ const EventDetails = () => {
         setConfirmation(false);
 
         try {
-            const response = await fetch(`http://localhost:5000/api/events/book/${id}`, {
+            const response = await fetch(`https://ezpass-backend.vercel.app/api/events/book/${id}`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
@@ -115,7 +115,7 @@ const EventDetails = () => {
             return;
         }
         try {
-            const response = await fetch("http://localhost:5000/api/approval-request", {
+            const response = await fetch("https://ezpass-backend.vercel.app/api/approval-request", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"

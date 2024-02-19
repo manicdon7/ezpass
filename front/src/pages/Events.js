@@ -14,7 +14,7 @@ const Events = ({ userEmail }) => {
   useEffect(() => {
     async function fetchEvents() {
       try {
-        const response = await fetch("http://localhost:5000/api/events");
+        const response = await fetch("https://ezpass-backend.vercel.app/api/events");
         if (response.ok) {
           const eventData = await response.json();
           setEventList(eventData);

@@ -10,7 +10,7 @@ const ApprovalRequests = () => {
   useEffect(() => {
     const fetchApprovalRequests = async () => {
       try {
-        const response = await fetch(`http://localhost:5000/api/approval/${id}`);
+        const response = await fetch(`https://ezpass-backend.vercel.app/api/approval/${id}`);
         if (response.ok) {
           const data = await response.json();
           setApprovalRequests(data);
@@ -29,7 +29,7 @@ const ApprovalRequests = () => {
 
   const handleApprove = async (eventId, userEmail) => {
     try {
-      const response = await fetch(`http://localhost:5000/api/approve-request/${eventId}`, {
+      const response = await fetch(`https://ezpass-backend.vercel.app/api/approve-request/${eventId}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -50,7 +50,7 @@ const ApprovalRequests = () => {
   
   const handleReject = async (eventId, userEmail) => {
     try {
-      const response = await fetch(`http://localhost:5000/api/approve-request/${eventId}`, {
+      const response = await fetch(`https://ezpass-backend.vercel.app/api/approve-request/${eventId}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
