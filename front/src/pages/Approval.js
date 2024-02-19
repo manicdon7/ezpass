@@ -72,21 +72,21 @@ const ApprovalRequests = () => {
   
 
   return (
-    <div className="bg-white border border-gray-600 rounded-lg shadow-xl p-6 mx-20 my-2">
-  <h2 className="text-2xl font-bold mb-4">Approval Requests</h2>
+    <div className="bg-white border border-gray-600 rounded-lg shadow-xl p-6 mx-2 md:mx-20 my-4 md:my-2">
+  <h2 className="text-xl md:text-2xl font-bold mb-4">Approval Requests</h2>
   {loading ? (
     <p>Loading...</p>
   ) : (
-    <ul className="divide-y divide-gray-200">
+    <ul className="divide-y divide-gray-400">
       {approvalRequests.map((request, index) => (
-        <li key={index} className="py-4">
-          <div className="flex justify-between items-center">
+        <li key={index} className="py-6">
+          <div className="md:flex justify-between items-center">
             <div className="flex-1">
-              <p className="text-lg font-semibold">Event ID: {request.eventId}</p>
-              <p className="text-lg">User Email: {request.userEmail}</p>
-              <p className="text-lg">Booking Details: {JSON.stringify(request.bookingDetails)}</p>
+              <p className="text-sm md:text-lg font-semibold">Event ID: {request.eventId}</p>
+              <p className="text-sm md:text-lg">User Email: {request.userEmail}</p>
+              <p className="text-sm md:text-lg">Booking Details: {JSON.stringify(request.bookingDetails)}</p>
             </div>
-            <div>
+            <div className="mt-3 md:mt-0">
               <button onClick={() => handleApprove(request.eventId, request.userEmail)} className="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600 focus:outline-none focus:bg-green-600 mr-2">Approve</button>
               <button onClick={() => handleReject(request.eventId, request.userEmail)} className="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600 focus:outline-none focus:bg-red-600">Reject</button>
             </div>

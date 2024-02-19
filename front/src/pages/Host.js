@@ -116,7 +116,7 @@ const Host = ({ userEmail }) => {
   
   
   return (
-    <div className="poppins-font bg-black h-full flex-col px-60 py-11  text-white font-medium" style={bg}>
+    <div className="poppins-font bg-black h-full flex-col px-10 md:px-60 py-11 text-white font-medium" style={bg}>
       <h1 className=" text-2xl md:text-3xl">Event Cover Image
         <input type="file" className="block py-2.5 px-0 w-full text-sm text-white bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-white dark:focus:border-yellow-400 focus:outline-none focus:ring-0 focus:border-blue-600 peer placeholder-gray-200" name="image" onChange={handleChange} />
       </h1>
