@@ -58,7 +58,7 @@ const Event = mongoose.model("Event", eventSchema);
 const Approval = mongoose.model('Approval', approvalSchema);
 
 // Middleware
-app.use(cors());
+app.use(cors("https://ezpass-backend.vercel.app/"));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ limit: '20mb', extended: true }));
 
