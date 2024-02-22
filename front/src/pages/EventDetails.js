@@ -88,7 +88,6 @@ const EventDetails = () => {
             if (response.ok) {
                 const data = await response.json();
                 if (data.message === "Ticket booked successfully") {
-                    // Show ticket booked popup
                     alert("Ticket booked successfully, See you in the event");
                 } else {
                     alert("You have already booked your slot");

@@ -20,6 +20,7 @@ const Host = ({ userEmail }) => {
     image: null,
   });
   const [transactionStatus, setTransactionStatus] = useState(null);
+  const [showSignInPopup, setShowSignInPopup] = useState(false);
 
   useEffect(() => {
     const auth = getAuth();
@@ -52,6 +53,16 @@ const Host = ({ userEmail }) => {
     }));
   };
   
+  const signInWithGoogle = async () => {
+    const auth = getAuth();
+    const provider = new GoogleAuthProvider();
+    try {
+      await signInWithPopup(auth, provider);
+      setShowSignInPopup(false);
+    } catch (error) {
+      console.error("Error signing in:", error.message);
+    }
+  };  
 
   const addHost = async () => {
     try {
@@ -166,8 +177,18 @@ const Host = ({ userEmail }) => {
           {transactionStatus}
         </div>
       )}
+      {showSignInPopup && (
+        <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-75 flex items-center justify-center">
+          <div className="bg-white p-8 rounded-lg shadow-lg">
+            <h2 className="text-2xl mb-4">Sign in to host an event</h2>
+            <button className="bg-blue-500 text-white px-4 py-2 rounded-lg mr-4" onClick={signInWithGoogle}>Sign in with Google</button>
+            <button className="bg-gray-300 text-gray-800 px-4 py-2 rounded-lg" onClick={() => setShowSignInPopup(false)}>Cancel</button>
+          </div>
+        </div>
+      )}
     </div>
   );
+  
 }
 
 export default Host;

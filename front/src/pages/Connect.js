@@ -34,6 +34,7 @@ function Connect({ setUserEmail }) {
       const result = await signInWithPopup(auth, provider);
       setUser(result.user);
       setUserEmail(result.user.email);
+      console.log(result);
     } catch (error) {
       console.error('Google authentication error:', error.message);
     }
