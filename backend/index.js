@@ -58,7 +58,7 @@ const Event = mongoose.model("Event", eventSchema);
 const Approval = mongoose.model('Approval', approvalSchema);
 
 // Middleware
-app.use(cors('https://ezpass-backend.vercel.app'));
+app.use(cors("https://ezpass-backend.vercel.app/"));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ limit: '20mb', extended: true }));
 
@@ -184,7 +184,7 @@ app.post("/api/events/book/:id", async (req, res) => {
 app.get("/api/dashboard", async (req, res) => {
   try {
     const events = await Event.find();
-    if (!events) {  
+    if (!events) {
       return res.status(404).json({ error: "No events found" });
     }
     res.status(200).json(events);
@@ -283,29 +283,14 @@ app.post('/api/approve-request/:eventId', async (req, res) => {
 app.get("/api/approval/:id", async (req, res) => {
   const { id } = req.params;
   try {
-    const event = await Event.findById(id);
-    if (!event) {
-      return res.status(404).json({ error: "Event not found" });
-    }
-    const bookedBy = event.bookedBy;
-    res.status(200).json(bookedBy);
+    const approvalRequests = await Approval.find({ eventId: id });
+    res.json(approvalRequests);
   } catch (error) {
-    console.error("Error fetching bookedBy array:", error);
-    res.status(500).json({ error: "Failed to fetch bookedBy array" });
+    console.error("Error fetching approval requests:", error);
+    res.status(500).json({ error: "Failed to fetch approval requests" });
   }
 });
 
-
-// Backend endpoint to fetch bookedBy array
-app.get("/api/event/bookedBy", async (req, res) => {
-  try {
-    const bookedBy = await Event.find({}, 'bookedBy'); // Assuming you have a model named Event with a bookedBy field
-    res.status(200).json(bookedBy);
-  } catch (error) {
-    console.error("Error fetching bookedBy array:", error);
-    res.status(500).json({ error: "Failed to fetch bookedBy array" });
-  }
-});
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
