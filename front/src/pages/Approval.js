@@ -48,7 +48,7 @@ const ApprovalRequests = () => {
     }
   };
 
-  const sendApprovalEmail = (userEmail, isApproved) => {
+  const sendApprovalEmail = (to_email,userEmail, isApproved) => {
     const templateId = isApproved ? 'template_wpezusn' : 'template_wpezusn'; // Adjust template IDs as needed
 
     emailjs.send('service_2onmr4k', templateId, {
@@ -72,31 +72,23 @@ const ApprovalRequests = () => {
       {loading ? (
         <p>Loading...</p>
       ) : (
-        <div className="overflow-x-auto">
-          <table className="table-auto w-full">
-            <thead>
-              <tr>
-                <th className="px-4 py-2">Event ID</th>
-                <th className="px-4 py-2">User Email</th>
-                <th className="px-4 py-2">Booking Details</th>
-                <th className="px-4 py-2">Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {approvalRequests.map((request, index) => (
-                <tr key={index} className={index % 2 === 0 ? "bg-gray-100" : ""}>
-                  <td className="border px-4 py-2">{request.eventId}</td>
-                  <td className="border px-4 py-2">{request.userEmail}</td>
-                  <td className="border px-4 py-2">{JSON.stringify(request.bookingDetails)}</td>
-                  <td className="border px-4 py-2">
-                    <button onClick={() => handleApproval(request.eventId, request.userEmail, true)} className="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600 focus:outline-none focus:bg-green-600 mr-2">Approve</button>
-                    <button onClick={() => handleApproval(request.eventId, request.userEmail, false)} className="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600 focus:outline-none focus:bg-red-600">Reject</button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+        <ul className="divide-y divide-gray-400">
+          {approvalRequests.map((request, index) => (
+            <li key={index} className="py-6">
+              <div className="md:flex justify-between items-center">
+                <div className="flex-1">
+                  <p className="text-sm md:text-lg font-semibold">Event ID: {request.eventId}</p>
+                  <p className="text-sm md:text-lg">User Email: {request.userEmail}</p>
+                  <p className="text-sm md:text-lg">Booking Details: {JSON.stringify(request.bookingDetails)}</p>
+                </div>
+                <div className="mt-3 md:mt-0">
+                  <button onClick={() => handleApproval(request.eventId, request.userEmail, true)} className="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600 focus:outline-none focus:bg-green-600 mr-2">Approve</button>
+                  <button onClick={() => handleApproval(request.eventId, request.userEmail, false)} className="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600 focus:outline-none focus:bg-red-600">Reject</button>
+                </div>
+              </div>
+            </li>
+          ))}
+        </ul>
       )}
     </div>
   );
