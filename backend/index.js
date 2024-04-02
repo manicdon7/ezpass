@@ -58,7 +58,7 @@ const Event = mongoose.model("Event", eventSchema);
 const Approval = mongoose.model('Approval', approvalSchema);
 
 // Middleware
-app.use(cors("https://ezpass-backend.vercel.app/"));
+app.use(cors('https://ezpass-backend.vercel.app'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ limit: '20mb', extended: true }));
 
@@ -104,7 +104,7 @@ app.post("/api/host", verifyToken, upload.single("image"), async (req, res) => {
       date: date ? new Date(date) : null,
       time,
       imageURL: "",
-      hostedBy: email, // Set the hostedBy field to the user's email
+      hostedBy: email,
     });
 
     await newEvent.save();
@@ -184,7 +184,7 @@ app.post("/api/events/book/:id", async (req, res) => {
 app.get("/api/dashboard", async (req, res) => {
   try {
     const events = await Event.find();
-    if (!events) {
+    if (!events) {  
       return res.status(404).json({ error: "No events found" });
     }
     res.status(200).json(events);
@@ -223,13 +223,12 @@ app.post('/api/approval-request', async (req, res) => {
   console.log('Booking Details:', bookingDetails);
 
   try {
-    // Check if there is an existing approval with the same eventId and userEmail
+
     const existingApproval = await Approval.findOne({ eventId, userEmail });
     if (existingApproval) {
       return res.status(400).json({ message: 'User has already requested approval for this event' });
     }
 
-    // If no existing approval found, create a new one
     const newApproval = new Approval({
       eventId,
       userEmail,
@@ -244,13 +243,13 @@ app.post('/api/approval-request', async (req, res) => {
     res.status(500).json({ error: 'Failed to store approval request' });
   }
 });
-// Route to handle approval request
+
 app.post('/api/approve-request/:eventId', async (req, res) => {
   const { eventId } = req.params;
   const { userEmail, approve } = req.body;
 
   try {
-    // Find the approval request by eventId and userEmail
+
     const approval = await Approval.findOne({ eventId, userEmail });
 
     if (!approval) {
@@ -258,7 +257,7 @@ app.post('/api/approve-request/:eventId', async (req, res) => {
     }
 
     if (approve) {
-      // Update event data to include the approved user's email
+
       const event = await Event.findOneAndUpdate(
         { _id: eventId, totalTickets: { $gt: 0 } },
         { $push: { bookedBy: userEmail },
@@ -271,7 +270,6 @@ app.post('/api/approve-request/:eventId', async (req, res) => {
       }
     }
 
-    // Remove the approval request from the Approval collection
     await Approval.deleteOne({ eventId, userEmail });
 
     return res.status(200).json({ message: "Approval/Rejection handled successfully" });
@@ -282,18 +280,32 @@ app.post('/api/approve-request/:eventId', async (req, res) => {
 }); 
 
 
-// Route to fetch approval requests by eventId
 app.get("/api/approval/:id", async (req, res) => {
   const { id } = req.params;
   try {
-    const approvalRequests = await Approval.find({ eventId: id });
-    res.json(approvalRequests);
+    const event = await Event.findById(id);
+    if (!event) {
+      return res.status(404).json({ error: "Event not found" });
+    }
+    const bookedBy = event.bookedBy;
+    res.status(200).json(bookedBy);
   } catch (error) {
-    console.error("Error fetching approval requests:", error);
-    res.status(500).json({ error: "Failed to fetch approval requests" });
+    console.error("Error fetching bookedBy array:", error);
+    res.status(500).json({ error: "Failed to fetch bookedBy array" });
   }
 });
 
+
+// Backend endpoint to fetch bookedBy array
+app.get("/api/event/bookedBy", async (req, res) => {
+  try {
+    const bookedBy = await Event.find({}, 'bookedBy'); // Assuming you have a model named Event with a bookedBy field
+    res.status(200).json(bookedBy);
+  } catch (error) {
+    console.error("Error fetching bookedBy array:", error);
+    res.status(500).json({ error: "Failed to fetch bookedBy array" });
+  }
+});
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
