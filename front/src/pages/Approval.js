@@ -5,9 +5,7 @@ import emailjs from '@emailjs/browser';
 const ApprovalRequests = () => {
   const { id } = useParams();
   const [approvalRequests, setApprovalRequests] = useState([]);
-  const [bookedBy, setBookedBy] = useState([]);
-  const [loadingApproval, setLoadingApproval] = useState(true);
-  const [loadingBookedBy, setLoadingBookedBy] = useState(true);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchApprovalRequests = async () => {
@@ -22,32 +20,12 @@ const ApprovalRequests = () => {
       } catch (error) {
         console.error("Error fetching approval requests:", error);
       } finally {
-        setLoadingApproval(false);
+        setLoading(false);
       }
     };
 
     fetchApprovalRequests();
   }, [id]);
-
-  useEffect(() => {
-    const fetchBookedBy = async () => {
-      try {
-        const response = await fetch("https://ezpass-backend.vercel.app/api/event/bookedBy");
-        if (response.ok) {
-          const data = await response.json();
-          setBookedBy(data);
-        } else {
-          console.error("Failed to fetch bookedBy array:", response.statusText);
-        }
-      } catch (error) {
-        console.error("Error fetching bookedBy array:", error);
-      } finally {
-        setLoadingBookedBy(false);
-      }
-    };
-
-    fetchBookedBy();
-  }, []);
 
   const handleApproval = async (eventId, userEmail, isApproved) => {
     try {
@@ -82,6 +60,7 @@ const ApprovalRequests = () => {
         alert(`Email ${isApproved ? 'approved' : 'rejected'} successfully sent to ${userEmail}`);
       })
       .catch((error) => {
+        console.log(error);
         console.error('Email error:', error);
         alert(`Failed to send email to ${userEmail}. Please try again later.`);
       });
@@ -90,7 +69,7 @@ const ApprovalRequests = () => {
   return (
     <div className="bg-white border border-gray-600 rounded-lg shadow-xl p-6 mx-2 md:mx-20 my-4 md:my-2">
       <h2 className="text-xl md:text-2xl font-bold mb-4">Approval Requests</h2>
-      {loadingApproval ? (
+      {loading ? (
         <p>Loading...</p>
       ) : (
         <div className="overflow-x-auto">
@@ -113,27 +92,6 @@ const ApprovalRequests = () => {
                     <button onClick={() => handleApproval(request.eventId, request.userEmail, true)} className="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600 focus:outline-none focus:bg-green-600 mr-2">Approve</button>
                     <button onClick={() => handleApproval(request.eventId, request.userEmail, false)} className="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600 focus:outline-none focus:bg-red-600">Reject</button>
                   </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      )}
-      <h2 className="text-xl md:text-2xl font-bold mb-4">Approved Email List</h2>
-      {loadingBookedBy ? (
-        <p>Loading...</p>
-      ) : (
-        <div className="overflow-x-auto">
-          <table className="table-auto w-full">
-            <thead>
-              <tr>
-                <th className="px-4 py-2">Email</th>
-              </tr>
-            </thead>
-            <tbody>
-              {bookedBy.map((email, index) => (
-                <tr key={index} className={index % 2 === 0 ? "bg-gray-100" : ""}>
-                  <td className="border px-4 py-2">{email}</td>
                 </tr>
               ))}
             </tbody>
