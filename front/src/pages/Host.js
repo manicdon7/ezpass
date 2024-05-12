@@ -157,7 +157,7 @@ const Host = ({ userEmail }) => {
       <Head
         title="Ezpass hosting"
         description="Host your show here"
-        image={img1}
+        image="https://github.com/manicdon7/ezpass/blob/master/front/src/assets/home.png"
       />
       <h1 className=" text-2xl md:text-3xl">Event Cover Image
         <input type="file" className="block py-2.5 px-0 w-full text-sm text-white bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-white dark:focus:border-yellow-400 focus:outline-none focus:ring-0 focus:border-blue-600 peer placeholder-gray-200" name="image" onChange={handleChange} />
