@@ -12,14 +12,12 @@
   (function(){
      emailjs.init({
        publicKey: "2E3UzQ9GieXS_NXxN",
-     });
+     });  
   })();
 </script>
     <meta name="theme-color" content="#000000" />
-    <meta
-      name="description"
-      content="Web site created using create-react-app"
-    />
+    <meta name="description" id="meta-description" content="" />
+    <meta property="og:image" id="meta-image" content="" />
     <link rel="apple-touch-icon" href="../src//assets/lp.png" />
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7877602362549451"
      crossorigin="anonymous"></script>
@@ -46,6 +44,35 @@
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="root">
+      <script>
+        document.addEventListener("DOMContentLoaded", function() {
+          var pathName = window.location.pathname;
+          var pageTitle = "Default Title";
+          var pageDescription = "Default Description";
+          var pageImage = "Default Image URL";
+    
+          // Update meta tags based on the current page
+          if (pathName === "/") {
+            pageTitle = "Home page";
+            pageDescription = "Description for the Home page";
+            pageImage = "https://github.com/manicdon7/ezpass/blob/master/front/src/assets/home.png";
+          }
+          else if (pathName === "/host") {
+            pageTitle = "Hosting Page";
+            pageDescription = "Description for the Contact page";
+            pageImage = "https://github.com/manicdon7/ezpass/blob/master/front/src/assets/home.png";
+          } else if (pathName === "/Dashboard") {
+            pageTitle = "Contact Page";
+            pageDescription = "Description for the Dashboard page";
+            pageImage = "https://github.com/manicdon7/ezpass/blob/master/front/src/assets/home.png";
+          }
+          
+          // Set meta tag values
+          document.getElementById("meta-description").setAttribute("content", pageDescription);
+          document.getElementById("meta-image").setAttribute("content", pageImage);
+          document.title = pageTitle;
+        });
+      </script>
       <script type="module">
         // Import the functions you need from the SDKs you need
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
