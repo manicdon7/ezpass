@@ -50,7 +50,7 @@
           var pageTitle = "Ezpass";
           var pageDescription = "Book your ticket here";
           var pageImage = "https://github.com/manicdon7/ezpass/blob/master/front/src/assets/home.png";
-    
+      
           // Update meta tags based on the current page
           if (pathName === "/") {
             pageTitle = "Home page";
@@ -71,6 +71,11 @@
           document.getElementById("meta-description").setAttribute("content", pageDescription);
           document.getElementById("meta-image").setAttribute("content", pageImage);
           document.title = pageTitle;
+    
+          // Load image dynamically
+          var imgElement = document.createElement("img");
+          imgElement.src = pageImage;
+          document.body.appendChild(imgElement);
         });
       </script>
       <script type="module">
