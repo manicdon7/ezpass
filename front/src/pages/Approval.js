@@ -36,10 +36,15 @@ const ApprovalRequests = () => {
         },
         body: JSON.stringify({ userEmail, approve: isApproved }),
       });
-
+  
       if (response.ok) {
         setApprovalRequests(prevRequests => prevRequests.filter(request => request.eventId !== eventId));
-        sendApprovalEmail(userEmail, isApproved);
+        const event = approvalRequests.find(request => request.eventId === eventId);
+        if (isApproved && event && event.ticketPrice > 0) {
+          generatePaymentLink(eventId, userEmail);
+        } else if (!isApproved) {
+          sendRejectionEmail(userEmail);
+        }
       } else {
         console.error("Failed to update request status:", response.statusText);
       }
@@ -47,22 +52,57 @@ const ApprovalRequests = () => {
       console.error("Error updating request status:", error);
     }
   };
+  
+  const generatePaymentLink = async (eventId, userEmail) => {
+    try {
+      const response = await fetch(`https://ezpass-backend.vercel.app/api/payment-link/${eventId}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ userEmail }),
+      });
 
-  const sendApprovalEmail = (to_email,userEmail, isApproved) => {
-    const templateId = isApproved ? 'template_wpezusn' : 'template_wpezusn'; // Adjust template IDs as needed
+      if (response.ok) {
+        const { paymentLink } = await response.json();
+        sendPaymentLinkEmail(userEmail, paymentLink);
+      } else {
+        console.error("Failed to generate payment link:", response.statusText);
+      }
+    } catch (error) {
+      console.error("Error generating payment link:", error);
+    }
+  };
 
-    emailjs.send('service_2onmr4k', templateId, {
-      to_email: userEmail,
-    }, '2E3UzQ9GieXS_NXxN',
-    ) 
+  const sendPaymentLinkEmail = (to_email, paymentLink) => {
+    const templateParams = {
+      to_email,
+      paymentLink
+    };
+
+    emailjs.send('service_2onmr4k', 'template_wpezusn', templateParams, '2E3UzQ9GieXS_NXxN')
       .then((response) => {
-        console.log('Email sent:', response);
-        alert(`Email ${isApproved ? 'approved' : 'rejected'} successfully sent to ${userEmail}`);
+        console.log('Payment link email sent:', response);
+        alert(`Payment link successfully sent to ${to_email}`);
       })
       .catch((error) => {
-        console.log(error);
-        console.error('Email error:', error);
-        alert(`Failed to send email to ${userEmail}. Please try again later.`);
+        console.error('Payment link email error:', error);
+        alert(`Failed to send payment link to ${to_email}. Please try again later.`);
+      });
+  };
+
+  const sendRejectionEmail = (to_email) => {
+    emailjs.send('service_2onmr4k', 'template_wpezusn','2E3UzQ9GieXS_NXxN', {
+      to_email,
+      isRejected: true
+    }, '2E3UzQ9GieXS_NXxN')
+      .then((response) => {
+        console.log('Rejection email sent:', response);
+        alert(`Rejection email successfully sent to ${to_email}`);
+      })
+      .catch((error) => {
+        console.error('Rejection email error:', error);
+        alert(`Failed to send rejection email to ${to_email}. Please try again later.`);
       });
   };
 

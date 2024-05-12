@@ -1,12 +1,28 @@
 import React, { useState, useEffect } from "react";
 import { getAuth, GoogleAuthProvider, signInWithPopup, onAuthStateChanged } from "firebase/auth";
+import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import img from "../assets/concert.avif";
+import Head from "../Components/Head";
+import img1 from '../assets/home.png';
+
+// Import your Firebase configuration and initialize the app
+import { initializeApp } from "firebase/app";
+const firebaseConfig = {
+  apiKey: "AIzaSyBms2fayouqba8Vv99je1p5JyQVMBdZDpI",
+  authDomain: "ticket2-b1147.firebaseapp.com",
+  projectId: "ticket2-b1147",
+  storageBucket: "ticket2-b1147.appspot.com",
+  messagingSenderId: "489534606397",
+  appId: "1:489534606397:web:85753ab54dd4321d462e54",
+  measurementId: "G-GVY1NLSX1F"
+};
+const app = initializeApp(firebaseConfig);
+const storage = getStorage(app);
 
 const bg = {
   backgroundImage: `url(${img})`,
   backgroundSize: "cover",
 };
-
 
 const Host = ({ userEmail }) => {
   const [user, setUser] = useState(null);
@@ -45,6 +61,7 @@ const Host = ({ userEmail }) => {
       }));
     }
   };
+
   const handleTimePeriodChange = (event) => {
     const { value } = event.target;
     setHost((prevHost) => ({
@@ -52,7 +69,7 @@ const Host = ({ userEmail }) => {
       timePeriod: value,
     }));
   };
-  
+
   const signInWithGoogle = async () => {
     const auth = getAuth();
     const provider = new GoogleAuthProvider();
@@ -68,49 +85,59 @@ const Host = ({ userEmail }) => {
     try {
       const auth = getAuth();
       const currentUser = auth.currentUser;
-  
+
       if (!currentUser) {
         const provider = new GoogleAuthProvider();
         const result = await signInWithPopup(auth, provider);
         setUser(result.user);
       }
-  
+
       // Get the user's email
       const userEmail = currentUser.email;
       console.log("User email:", userEmail);
-  
+
       // Get the ID token (Bearer token)
       const idToken = await currentUser.getIdToken();
-  
+
       // Include the token in the Authorization header
       const headers = {
         Authorization: `Bearer ${idToken}`
       };
-  
+
+      // Upload the image to Firebase Storage
+      const imageRef = ref(storage, `images/${host.name}-${Date.now()}`);
+      await uploadBytes(imageRef, host.image);
+
+      // Get the download URL of the uploaded image
+      const imageUrl = await getDownloadURL(imageRef);
+      console.log("Image URL:", imageUrl);
+
       // Create a FormData object to send the event data
       const formData = new FormData();
-      formData.append("image", host.image);
       formData.append("name", host.name);
       formData.append("location", host.location);
-      formData.append("totalTickets", host.totaltickets); // Corrected property name
+      formData.append("totaltickets", host.totaltickets);
       formData.append("price", host.price);
       formData.append("date", host.date);
       formData.append("time", host.time);
+      formData.append("imageUrl", imageUrl);
       formData.append("email", userEmail);
-  
-      // Make the HTTP request with the headers and FormData
+
       const response = await fetch("http://localhost:5000/api/host", {
         method: "POST",
-        headers: headers,
+        headers: {
+          ...headers,
+          'Content-Type': 'multipart/form-data'
+        },
         body: formData,
       });
-  
+
       if (response.ok) {
         setTransactionStatus("Successfully submitted!");
         setHost({
           name: "",
           location: "",
-          totaltickets: "", // Corrected property name
+          totaltickets: "",
           price: "",
           date: "",
           time: "",
@@ -124,10 +151,14 @@ const Host = ({ userEmail }) => {
       setTransactionStatus("Hosting failed. Please try again.");
     }
   };
-  
-  
+
   return (
     <div className="poppins-font bg-black h-full flex-col px-10 md:px-60 py-11 text-white font-medium" style={bg}>
+      <Head
+        title="Ezpass hosting"
+        description="Host your show here"
+        image={img1}
+      />
       <h1 className=" text-2xl md:text-3xl">Event Cover Image
         <input type="file" className="block py-2.5 px-0 w-full text-sm text-white bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-white dark:focus:border-yellow-400 focus:outline-none focus:ring-0 focus:border-blue-600 peer placeholder-gray-200" name="image" onChange={handleChange} />
       </h1>
@@ -188,7 +219,6 @@ const Host = ({ userEmail }) => {
       )}
     </div>
   );
-  
 }
 
 export default Host;

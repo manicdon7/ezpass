@@ -7,17 +7,22 @@ const admin = require("firebase-admin");
 const app = express();
 const PORT = process.env.PORT || 5000;
 require("dotenv").config();
+const Razorpay = require('razorpay');
+
+const razorpay = new Razorpay({
+  key_id: process.env.keyid,
+  key_secret: process.env.keysecret
+});
 
 
-// Firebase Admin SDK initialization
-const serviceAccount = require("./ticket2-b1147-firebase-adminsdk-93xxm-5626a22e27.json"); // Update with your service account key path
+const serviceAccount = require("./ticket2-b1147-firebase-adminsdk-93xxm-5626a22e27.json");
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
-  databaseURL: "https://ticket2-b1147-default-rtdb.firebaseio.com/" // Update with your database URL
+  databaseURL: "https://ticket2-b1147-default-rtdb.firebaseio.com/"
 });
 dbURI = 'mongodb+srv://manikandan05082003:Manicdon07%40@cluster0.scriurb.mongodb.net/Ticket2'
-// Connect to MongoDB
+
 mongoose.connect(dbURI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
@@ -31,6 +36,7 @@ const eventSchema = new mongoose.Schema({
   price: Number,
   date: Date,
   time: String,
+  imageUrl: String,
   contentType: String,
   hostedBy: String,
   bookedBy: [String],
@@ -53,12 +59,10 @@ const approvalSchema = new mongoose.Schema({
 });
 
 
-// Create Mongoose model
 const Event = mongoose.model("Event", eventSchema);
 const Approval = mongoose.model('Approval', approvalSchema);
 
-// Middleware
-app.use(cors("https://ezpass-backend.vercel.app/"));
+app.use(cors(["https://ezpass-backend.vercel.app/","http://localhost:3000/"]));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ limit: '20mb', extended: true }));
 
@@ -79,23 +83,21 @@ const verifyToken = async (req, res, next) => {
   }
 };
 
-// Multer storage configuration
 const multerStorage = multer.memoryStorage();
 const upload = multer({ storage: multerStorage, limits: { fileSize: 25 * 1024 * 1024 } });
 
 app.get("/", async (req,res) => {
     res.json({ message: "Welcome to the Events API!" })
 })
-// Route to host an event
+
 app.post("/api/host", verifyToken, upload.single("image"), async (req, res) => {
-  const { name, location, totalTickets, price, date, time } = req.body;
+  const { name, location, totalTickets, price, date, time, imageUrl } = req.body;
   const email = req.userEmail;
   try {
     if (!req.file) {
       return res.status(400).json({ error: "No image provided" });
     }
 
-    const { buffer, mimetype } = req.file;
     const newEvent = new Event({
       name,
       location,
@@ -103,7 +105,7 @@ app.post("/api/host", verifyToken, upload.single("image"), async (req, res) => {
       price: parseInt(price),
       date: date ? new Date(date) : null,
       time,
-      imageURL: "",
+      imageUrl,
       hostedBy: email,
     });
 
@@ -116,7 +118,7 @@ app.post("/api/host", verifyToken, upload.single("image"), async (req, res) => {
   }
 });
 
-// Route to fetch all events
+
 app.get("/api/events", async (req, res) => {
   try {
     const events = await Event.find();
@@ -131,7 +133,6 @@ app.get("/api/events", async (req, res) => {
 });
 
 
-// Route to fetch a specific event by ID
 app.get("/api/events/:id", async (req, res) => {
   const eventId = req.params.id;
   try {
@@ -146,7 +147,6 @@ app.get("/api/events/:id", async (req, res) => {
   }
 });
 
-// Route to book a ticket for an event
 app.post("/api/events/book/:id", async (req, res) => {
   try {
     const eventId = req.params.id;
@@ -291,6 +291,26 @@ app.get("/api/approval/:id", async (req, res) => {
   }
 });
 
+const generatePaymentLink = (eventId) => {
+  // Construct the payment link based on the eventId
+  const paymentLink = `http://localhost:3000/payment/${eventId}`;
+  return paymentLink;
+};
+
+app.post("/api/payment-link/:eventId", async (req, res) => {
+  const { eventId } = req.params; // Extracting eventId from request params
+
+  try {
+    // Generate the payment link based on the eventId
+    const paymentLink = generatePaymentLink(eventId);
+
+    // Send the payment link to the client
+    res.json({ paymentLink });
+  } catch (error) {
+    console.error("Error creating payment link:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+})
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);

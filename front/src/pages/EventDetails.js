@@ -20,7 +20,7 @@ const EventDetails = () => {
     const [showModal, setShowModal] = useState(false);
     const [approvalModal, setApprovalModal] = useState(false);
     const [alreadyBooked, setAlreadyBooked] = useState(false);
-    const [bookingDetails, setBookingDetails] = useState({});
+    const [bookingDetails, setBookingDetails] = useState({ name: '', email: '' });
 
     useEffect(() => {
         const fetchUserDetails = async () => {
@@ -59,7 +59,7 @@ const EventDetails = () => {
             console.log("User is not signed in");
             return;
         }
-    
+
         if (alreadyBooked) {
             setTransactionStatus("You have already booked a ticket for this event");
             setShowModal(true);
@@ -89,6 +89,8 @@ const EventDetails = () => {
                 const data = await response.json();
                 if (data.message === "Ticket booked successfully") {
                     alert("Ticket booked successfully, See you in the event");
+                    // Redirect to payment endpoint
+                    window.location.href = `https://ezpass-backend.vercel.app/api/payment/${id}`;
                 } else {
                     alert("You have already booked your slot");
                     // Show error message
@@ -223,7 +225,7 @@ const EventDetails = () => {
                                 <input type="email" id="email" name="email" onChange={handleBookingFormChange} className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
                             </div>
                             <div className="flex justify-center">
-                                <button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" onClick={submitApprovalRequest}>Submit Booking Request</button>
+                                <button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Submit Booking Request</button>
                             </div>
                         </form>
                     </div>
@@ -234,4 +236,3 @@ const EventDetails = () => {
 };
 
 export default EventDetails;
- 

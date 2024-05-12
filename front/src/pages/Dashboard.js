@@ -13,8 +13,6 @@
     const [showDetails, setShowDetails] = useState(false);
     const [loading, setLoading] = useState(true);
 
-    
-
     useEffect(() => {
       const fetchData = async () => {
         try {
@@ -24,7 +22,7 @@
             const userEmail = user.email;
             const idToken = await user.getIdToken();
             console.log(userEmail);
-            const response = await fetch("http://ezpass-backend.vercel.app/api/dashboard", {
+            const response = await fetch("http://localhost:5000/api/dashboard", {
               headers: {
                 Authorization: `Bearer ${idToken}`,
               },
