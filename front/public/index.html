@@ -66,13 +66,11 @@
             pageDescription = "Description for the Dashboard page";
             pageImage = "https://github.com/manicdon7/ezpass/blob/master/front/src/assets/home.png";
           }
-          
-          // Set meta tag values
+
           document.getElementById("meta-description").setAttribute("content", pageDescription);
           document.getElementById("meta-image").setAttribute("content", pageImage);
           document.title = pageTitle;
-    
-          // Load image dynamically
+
           var imgElement = document.createElement("img");
           imgElement.src = pageImage;
           imgElement.alt = "Preview Image";
