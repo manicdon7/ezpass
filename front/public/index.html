@@ -35,7 +35,7 @@
   <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Hammersmith+One&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Hammersmith+One&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900&display=swap" rel="stylesheet">
 </head>
 
 <body>
@@ -61,8 +61,7 @@
     const analytics = getAnalytics(app);
   </script>
   <script>
-    document.addEventListener("DOMContentLoaded", function () {
-      const pathName = window.location.pathname;
+    function updateMetaTags(pathName) {
       let pageTitle = "Ezpass";
       let pageDescription = "Ticket booking platform";
       let pageImage = "https://github.com/manicdon7/ezpass/blob/master/front/public/home.png?raw=true";
@@ -94,6 +93,15 @@
       document.getElementById("meta-twitter-image").setAttribute("content", pageImage);
       document.getElementById("meta-twitter-url").setAttribute("content", pageUrl);
       document.title = pageTitle;
+    }
+
+    document.addEventListener("DOMContentLoaded", function () {
+      updateMetaTags(window.location.pathname);
+
+      // Listen for SPA navigation changes
+      window.addEventListener("popstate", function() {
+        updateMetaTags(window.location.pathname);
+      });
     });
   </script>
 </body>
