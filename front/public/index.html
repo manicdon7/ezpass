@@ -1,10 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="utf-8" />
   <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="__DESCRIPTION__" />
+  <meta property="og:title" content="__TITLE__" />
+  <meta property="og:description" content="__DESCRIPTION__" />
+  <meta property="og:image" content="__IMAGEURL__" />
+  <meta property="og:url" content="__URL__" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="__TITLE__" />
+  <meta name="twitter:description" content="__DESCRIPTION__" />
+  <meta name="twitter:image" content="__IMAGEURL__" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss/dist/tailwind.min.css" />
   <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
   <script type="text/javascript">
@@ -15,13 +23,11 @@
     })();
   </script>
   <meta name="theme-color" content="#000000" />
-  <title>Ezpass</title>
+  <title>__TITLE__</title>
 </head>
-
 <body>
   <noscript>You need to enable JavaScript to run this app.</noscript>
   <div id="root"></div>
-
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
     import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-analytics.js";
@@ -34,10 +40,8 @@
       appId: "1:489534606397:web:85753ab54dd4321d462e54",
       measurementId: "G-GVY1NLSX1F"
     };
-    // Initialize Firebase
     const app = initializeApp(firebaseConfig);
     const analytics = getAnalytics(app);
   </script>
 </body>
-
 </html>

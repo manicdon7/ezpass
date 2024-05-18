@@ -8,14 +8,6 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 require("dotenv").config();
 const Razorpay = require('razorpay');
-// app.use(require('prerender-node').set('prerenderToken', 'RbvwzJQyLxadqmgvHGpg'));
-// app.use(prerender);
-
-// app.use(express.static('build'));
-
-// app.get('*', (req, res) => {
-//   res.sendFile(path.resolve(__dirname, 'build', 'index.html'));
-// });
 
 const razorpay = new Razorpay({
   key_id: process.env.keyid,
@@ -34,7 +26,7 @@ dbURI = 'mongodb+srv://manikandan05082003:Manicdon07%40@cluster0.scriurb.mongodb
 mongoose.connect(dbURI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
-});
+})
 const db = mongoose.connection;
 
 const eventSchema = new mongoose.Schema({
