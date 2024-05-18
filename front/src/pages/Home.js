@@ -10,16 +10,16 @@ const Home = () => {
     return (
         <div className="h-screen play-font" style={bg}> 
         <Helmet>
-        <title>Home</title>
-        <meta property="og:title" content="Home Page" />
-        <meta property="og:description" content="Ticket booking platform" />
-        <meta property="og:image" content="https://github.com/manicdon7/ezpass/blob/master/front/public/home.png?raw=true" id="meta-og-image" />
+        <title>Home - Ezpass</title>
+        <meta name="description" content="Description for the Home page" />
+        <meta property="og:title" content="Home - Ezpass" />
+        <meta property="og:description" content="Description for the Home page" />
+        <meta property="og:image" content="https://github.com/manicdon7/ezpass/blob/master/front/public/home.png?raw=true" />
         <meta property="og:url" content="https://ezpass.vercel.app/" />
-        <meta property="og:type" content="article" />
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="Home Page" />
-        <meta name="twitter:description" content="Ticket booking platform" />
-        <meta name="twitter:image" content="https://github.com/manicdon7/ezpass/blob/master/front/public/home.png?raw=true" id="meta-og-image" />
+        <meta property="twitter:card" content="summary_large_image" />
+        <meta property="twitter:title" content="Home - Ezpass" />
+        <meta property="twitter:description" content="Description for the Home page" />
+        <meta property="twitter:image" content="https://github.com/manicdon7/ezpass/blob/master/front/public/home.png?raw=true" />
         </Helmet>
             <main className="grid md:grid-cols-2">
                 <div className="text-white font-semibold mt-10 md:mt-36 mx-6 md:ml-10 poppins-font"> 
