@@ -5,9 +5,18 @@ const cors = require("cors");
 const multer = require("multer");
 const admin = require("firebase-admin");
 const app = express();
+const prerender = require('prerender-node');
 const PORT = process.env.PORT || 5000;
 require("dotenv").config();
 const Razorpay = require('razorpay');
+prerender.set('prerenderToken', 'RbvwzJQyLxadqmgvHGpg');
+app.use(prerender);
+
+app.use(express.static('build'));
+
+app.get('*', (req, res) => {
+  res.sendFile(path.resolve(__dirname, 'build', 'index.html'));
+});
 
 const razorpay = new Razorpay({
   key_id: process.env.keyid,
