@@ -4,6 +4,7 @@ import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import img from "../assets/concert.avif";
 import Head from "../Components/Head";
 import img1 from '../assets/home.png';
+import { Helmet } from "react-helmet";
 
 // Import your Firebase configuration and initialize the app
 import { initializeApp } from "firebase/app";
@@ -154,12 +155,18 @@ const Host = ({ userEmail }) => {
 
   return (
     <div className="poppins-font bg-black h-full flex-col px-10 md:px-60 py-11 text-white font-medium" style={bg}>
-      <Head
-        title="Ezpass hosting"
-        description="Host your show here"
-        image={img1}
-        imageAlt={'host'}
-      />
+      <Helmet>
+        <title>Home</title>
+        <meta property="og:title" content="Host page" />
+        <meta property="og:description" content="Host you events" />
+        <meta property="og:image" content="https://github.com/manicdon7/ezpass/blob/master/front/public/Screenshot%202024-05-15%20115209.png?raw=true" id="meta-og-image" />
+        <meta property="og:url" content="https://ezpass.vercel.app/" />
+        <meta property="og:type" content="article" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Host page" />
+        <meta name="twitter:description" content="Host you events" />
+        <meta name="twitter:image" content="https://github.com/manicdon7/ezpass/blob/master/front/public/Screenshot%202024-05-15%20115209.png?raw=true" id="meta-og-image" />
+        </Helmet>
       <h1 className=" text-2xl md:text-3xl">Event Cover Image
         <input type="file" className="block py-2.5 px-0 w-full text-sm text-white bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-white dark:focus:border-yellow-400 focus:outline-none focus:ring-0 focus:border-blue-600 peer placeholder-gray-200" name="image" onChange={handleChange} />
       </h1>
