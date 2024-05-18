@@ -15,32 +15,13 @@
     })();
   </script>
   <meta name="theme-color" content="#000000" />
-  <!-- Primary Meta Tags -->
   <title>Ezpass</title>
-  <meta name="title" content="" id="meta-title" />
-  <meta name="description" content="" id="meta-description" />
-  <meta property="og:type" content="website" />
-  <meta property="og:url" content="" id="meta-url" />
-  <meta property="og:title" content="" id="meta-og-title" />
-  <meta property="og:description" content="" id="meta-og-description" />
-  <meta property="og:image" content="" id="meta-og-image" />
-  <meta property="twitter:card" content="summary_large_image" />
-  <meta property="twitter:url" content="" id="meta-twitter-url" />
-  <meta property="twitter:title" content="" id="meta-twitter-title" />
-  <meta property="twitter:description" content="" id="meta-twitter-description" />
-  <meta property="twitter:image" content="" id="meta-twitter-image" />
-  <link rel="apple-touch-icon" href="../src/assets/lp.png" />
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7877602362549451" crossorigin="anonymous"></script>
-  <meta name="google-adsense-account" content="ca-pub-7877602362549451">
-  <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Hammersmith+One&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900&display=swap" rel="stylesheet">
 </head>
 
 <body>
   <noscript>You need to enable JavaScript to run this app.</noscript>
   <div id="root"></div>
+
   <script type="module">
     // Import the functions you need from the SDKs you need
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
@@ -49,7 +30,6 @@
     const firebaseConfig = {
       apiKey: "AIzaSyBms2fayouqba8Vv99je1p5JyQVMBdZDpI",
       authDomain: "ticket2-b1147.firebaseapp.com",
-      databaseURL: "https://ticket2-b1147-default-rtdb.firebaseio.com",
       projectId: "ticket2-b1147",
       storageBucket: "ticket2-b1147.appspot.com",
       messagingSenderId: "489534606397",
@@ -60,58 +40,6 @@
     const app = initializeApp(firebaseConfig);
     const analytics = getAnalytics(app);
   </script>
-  <script>
-    function updateMetaTags(pathName) {
-      const metaTags = {
-        '/': {
-          title: "Home page",
-          description: "Description for the Home page",
-          image: "https://github.com/manicdon7/ezpass/blob/master/front/public/home.png?raw=true",
-          url: "https://ezpass.vercel.app/"
-        },
-        '/host': {
-          title: "Hosting Page",
-          description: "Description for the Hosting page",
-          image: "https://github.com/manicdon7/ezpass/blob/master/front/public/Screenshot%202024-05-15%20115209.png?raw=true",
-          url: "https://ezpass.vercel.app/host"
-        },
-        '/dashboard': {
-          title: "Dashboard Page",
-          description: "Description for the Dashboard page",
-          image: "https://github.com/manicdon7/ezpass/blob/master/front/public/Screenshot%202024-05-15%20115209.png?raw=true",
-          url: "https://ezpass.vercel.app/dashboard"
-        }
-      };
-
-      const defaultTags = {
-        title: "Ezpass",
-        description: "Ticket booking platform",
-        image: "https://github.com/manicdon7/ezpass/blob/master/front/public/home.png?raw=true",
-        url: "https://ezpass.vercel.app/"
-      };
-
-      const tags = metaTags[pathName] || defaultTags;
-
-      document.getElementById("meta-title").setAttribute("content", tags.title);
-      document.getElementById("meta-description").setAttribute("content", tags.description);
-      document.getElementById("meta-og-title").setAttribute("content", tags.title);
-      document.getElementById("meta-og-description").setAttribute("content", tags.description);
-      document.getElementById("meta-og-image").setAttribute("content", tags.image);
-      document.getElementById("meta-url").setAttribute("content", tags.url);
-      document.getElementById("meta-twitter-title").setAttribute("content", tags.title);
-      document.getElementById("meta-twitter-description").setAttribute("content", tags.description);
-      document.getElementById("meta-twitter-image").setAttribute("content", tags.image);
-      document.getElementById("meta-twitter-url").setAttribute("content", tags.url);
-      document.title = tags.title;
-    }
-
-    document.addEventListener("DOMContentLoaded", function () {
-      updateMetaTags(window.location.pathname);
-      window.addEventListener("popstate", function() {
-        updateMetaTags(window.location.pathname);
-      });
-    });
-  </script>
-</body> 
+</body>
 
 </html>
